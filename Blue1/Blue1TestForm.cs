@@ -13,9 +13,9 @@ using BluetoothEx;
 
 namespace Blue1
 {
-   public partial class Form1 : Form
+   public partial class Blue1TestForm : Form
    {
-      public Form1()
+      public Blue1TestForm()
       {
          InitializeComponent();
       }
@@ -40,7 +40,7 @@ namespace Blue1
          // discover devices
          mm.Add("Discovering devices...");
          List<BluetoothDeviceInfo> radios = await dm.DiscoverAll();
-         mm.Add($"Found {radios.Count} devices");
+         mm.Add($"Found {radios.Count} device(s)");
          radios.ForEach(r => mm.Add(r.DeviceName, r.DeviceAddress.ToString()));
 
          // attempt pairing with first device

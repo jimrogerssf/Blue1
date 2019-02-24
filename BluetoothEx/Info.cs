@@ -31,11 +31,10 @@ namespace BluetoothEx
       }
 
       TaskCompletionSource<bool> DeviceDiscoveryTask = new TaskCompletionSource<bool>();
-      public async Task<List<BluetoothDeviceInfo>> DiscoverAll() // List<BluetoothDeviceInfo> radios)
+      public async Task<List<BluetoothDeviceInfo>> DiscoverAll()
       {
          DeviceDiscoveryTask = new TaskCompletionSource<bool>();
          DeviceList.Clear();
-
 
          using (BluetoothComponent bc = new BluetoothComponent())
          {

@@ -1,6 +1,6 @@
 ﻿namespace Blue1
 {
-   partial class Form1
+   partial class Blue1TestForm
    {
       /// <summary>
       /// Required designer variable.
@@ -53,15 +53,15 @@
          this.TBMessages.Size = new System.Drawing.Size(375, 366);
          this.TBMessages.TabIndex = 1;
          // 
-         // Form1
+         // Blue1TestForm
          // 
          this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.ClientSize = new System.Drawing.Size(800, 450);
          this.Controls.Add(this.TBMessages);
          this.Controls.Add(this.BtnConnect);
-         this.Name = "Form1";
-         this.Text = "Form1";
+         this.Name = "Blue1TestForm";
+         this.Text = "Bluetooth Test App";
          this.ResumeLayout(false);
          this.PerformLayout();
 
