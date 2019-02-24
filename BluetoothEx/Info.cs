@@ -26,9 +26,6 @@ namespace BluetoothEx
       /// <returns></returns>
       public BluetoothRadio GetPrimaryDevice()
       {
-         //var radios = BluetoothRadio.AllRadios;
-         //return (radios.Length > 0) ? radios[0] : null;
-
          var radio = BluetoothRadio.PrimaryRadio;
          return radio ?? null;
       }
