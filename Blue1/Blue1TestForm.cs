@@ -9,6 +9,17 @@ namespace Blue1
 {
    public partial class Blue1TestForm : Form
    {
+      Action<MessageManager, string> AddBeforeMessage = (msgMgr, msg) =>
+      {
+         msgMgr.Add(msg);
+         msgMgr.StartProgress();
+      };
+      Action<MessageManager, string> AddAfterMessage = (msgMgr, msg) =>
+      {
+         msgMgr.EndProgress();
+         msgMgr.Add(msg);
+      };
+
       public Blue1TestForm()
       {
          InitializeComponent();
@@ -43,8 +54,7 @@ namespace Blue1
          #region Discovery
 
          // discover devices using non blocking call
-         mm.Add("Discovering devices...");
-         mm.StartProgress();
+         AddBeforeMessage(mm, "Discovering devices...");
 
          List<BluetoothDeviceInfo> radios = await dm.DiscoverAll();
 
@@ -61,8 +71,7 @@ namespace Blue1
             BluetoothDeviceInfo btInfo = radios[0];
             BluetoothAddress addr = new BluetoothAddress(btInfo.DeviceAddress.ToByteArray());
 
-            mm.Add($"Initiating pairing with {btInfo.DeviceName}...");
-            mm.StartProgress();
+            AddBeforeMessage(mm, $"Initiating pairing with {btInfo.DeviceName}...");
 
             var paired = await dm.PairDevice(addr);
 
