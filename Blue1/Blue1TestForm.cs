@@ -39,51 +39,66 @@ namespace Blue1
          BluetoothEx.DeviceManager dm = new BluetoothEx.DeviceManager();
          MessageManager mm = new MessageManager(this.TBMessages, this.progressBar1);
 
-         var radio = dm.GetPrimaryDevice();
-         if (radio == null)
+         try
          {
-            MessageBox.Show("Bluetooh device not found");
-            return;
-         }
+            this.BtnConnect.Enabled = false;
 
-         // this device
-         mm.Add("Status", radio.HardwareStatus.ToString());
-         var mac = radio.LocalAddress;
-         mm.Add("Mac", mac.ToString());
+            var radio = dm.GetPrimaryDevice();
+            if (radio == null)
+            {
+               MessageBox.Show("Bluetooh device not found");
+               return;
+            }
 
-         #region Discovery
+            // this device
+            mm.Add("Status", radio.HardwareStatus.ToString());
+            var mac = radio.LocalAddress;
+            mm.Add("Mac", mac.ToString());
 
-         // discover devices using non blocking call
-         AddBeforeMessage(mm, "Discovering devices...");
+            #region Discovery
 
-         List<BluetoothDeviceInfo> radios = await dm.DiscoverAll();
+            // discover devices using non blocking call
+            AddBeforeMessage(mm, "Discovering devices...");
 
-         // show result
-         mm.EndProgress();
-         mm.Add($"Found {radios.Count} device(s)");
-         radios.ForEach(r => mm.Add(r.DeviceName, r.DeviceAddress.ToString()));
-         #endregion
+            List<BluetoothDeviceInfo> radios = await dm.DiscoverAll();
 
-         #region Pairing
-         // attempt pairing with first device in the list
-         if (radios.Count > 0)
-         {
-            BluetoothDeviceInfo btInfo = radios[0];
-            BluetoothAddress addr = new BluetoothAddress(btInfo.DeviceAddress.ToByteArray());
-
-            AddBeforeMessage(mm, $"Initiating pairing with {btInfo.DeviceName}...");
-
-            var paired = await dm.PairDevice(addr);
-
+            // show result
             mm.EndProgress();
-            var successPrefix = paired ? "" : "un";
-            mm.Add($"Pairing was {successPrefix}successful.");
+            mm.Add($"Found {radios.Count} device(s)");
+            radios.ForEach(r => mm.Add(r.DeviceName, r.DeviceAddress.ToString()));
+            #endregion
+
+            #region Pairing
+            // attempt pairing with first device in the list
+            if (radios.Count > 0)
+            {
+               BluetoothDeviceInfo btInfo = radios[0];
+               BluetoothAddress addr = new BluetoothAddress(btInfo.DeviceAddress.ToByteArray());
+
+               AddBeforeMessage(mm, $"Initiating pairing with {btInfo.DeviceName}...");
+
+               // perform pairing task
+               var paired = await dm.PairDevice(addr);
+
+               mm.EndProgress();
+               var successPrefix = paired ? "" : "un";
+               mm.Add($"Pairing was {successPrefix}successful.");
+            }
+            else
+            {
+               mm.Add($"Pairing was skipped.");
+            }
+            #endregion
+
          }
-         else
+         catch (Exception)
          {
-            mm.Add($"Pairing was skipped.");
          }
-         #endregion
+         finally
+         {
+            this.BtnConnect.Enabled = true;
+         }
+
       }
 
       /// <summary>
