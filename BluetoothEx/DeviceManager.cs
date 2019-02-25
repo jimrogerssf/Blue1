@@ -14,16 +14,8 @@ namespace BluetoothEx
 {
    public class DeviceManager
    {
-      // device discovery
-      //public class DeviceDiscoveryCompletedEventArgs : EventArgs
-      //{
-      //}
-      //public event DeviceDiscoveryCompletedEvent DeviceDiscoveryCompleted;
-      //public delegate void DeviceDiscoveryCompletedEvent();
-
       private List<BluetoothDeviceInfo> DeviceList { get; } = new List<BluetoothDeviceInfo>();
       private TaskCompletionSource<bool> DeviceDiscoveryTask = null;
-      private TaskCompletionSource<bool> DevicePairingTask = null;
 
       /// <summary>
       /// Returns local Bluetooth device
@@ -69,16 +61,12 @@ namespace BluetoothEx
       /// <returns></returns>
       public async Task<bool> PairDevice(BluetoothAddress device)
       {
-         DevicePairingTask = new TaskCompletionSource<bool>();
-
          var paired = false;
          await Task.Run(() =>
          {
             paired = BluetoothSecurity.PairRequest(device, null);
          });
 
-         DevicePairingTask.SetResult(true);
-         await DevicePairingTask.Task;
          return paired;
       }
 

@@ -65,7 +65,7 @@ namespace Blue1
          // attempt pairing with first device in the list
          if (radios.Count == 0)
          {
-            mm.Add($"Skipping pairing.");
+            mm.Add($"Pairing was skipped.");
          }
          else
          {
@@ -82,9 +82,6 @@ namespace Blue1
 
          }
          #endregion
-
-         // display all info
-         // mm.Show(); // already shown
       }
 
 
@@ -145,12 +142,13 @@ namespace Blue1
             Progress.Maximum = 100;
             Progress.Value = 0;
             ProgressTimer.Tick += ProgressTimer_Tick;
+            ProgressTimer.Interval = 50;
             ProgressTimer.Start();
          }
 
          private void ProgressTimer_Tick(object sender, EventArgs e)
          {
-            const int inc = 2;
+            const int inc = 1;
             int val = Progress.Value + inc;
             val = val >= Progress.Maximum ? 0 : val;
             Progress.Value = val;

@@ -28,6 +28,7 @@
       /// </summary>
       private void InitializeComponent()
       {
+         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Blue1TestForm));
          this.BtnConnect = new System.Windows.Forms.Button();
          this.TBMessages = new System.Windows.Forms.TextBox();
          this.progressBar1 = new System.Windows.Forms.ProgressBar();
@@ -69,6 +70,7 @@
          this.Controls.Add(this.progressBar1);
          this.Controls.Add(this.TBMessages);
          this.Controls.Add(this.BtnConnect);
+         this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
          this.Name = "Blue1TestForm";
          this.Text = "Bluetooth Test App";
          this.ResumeLayout(false);
