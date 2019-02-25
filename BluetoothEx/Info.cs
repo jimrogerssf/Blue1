@@ -2,23 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using InTheHand.Net;
 using InTheHand.Net.Bluetooth;
 using InTheHand.Net.Sockets;
+using InTheHand.Net.Bluetooth.Widcomm;
+using InTheHand.Net.Bluetooth.Factory;
 
 namespace BluetoothEx
 {
    public class DeviceManager
    {
       // device discovery
-      public class DeviceDiscoveryCompletedEventArgs : EventArgs
-      {
-      }
-      public event DeviceDiscoveryCompletedEvent DeviceDiscoveryCompleted;
-      public delegate void DeviceDiscoveryCompletedEvent();
+      //public class DeviceDiscoveryCompletedEventArgs : EventArgs
+      //{
+      //}
+      //public event DeviceDiscoveryCompletedEvent DeviceDiscoveryCompleted;
+      //public delegate void DeviceDiscoveryCompletedEvent();
 
       private List<BluetoothDeviceInfo> DeviceList { get; } = new List<BluetoothDeviceInfo>();
-      //private TaskCompletionSource<bool> DeviceDiscoveryTask { get; set; }
+      private TaskCompletionSource<bool> DeviceDiscoveryTask = null;
+      private TaskCompletionSource<bool> DevicePairingTask = null;
 
       /// <summary>
       /// Returns local Bluetooth device
@@ -30,7 +35,10 @@ namespace BluetoothEx
          return radio ?? null;
       }
 
-      TaskCompletionSource<bool> DeviceDiscoveryTask = new TaskCompletionSource<bool>();
+      /// <summary>
+      /// Retuns all discoverable bluetooth devices
+      /// </summary>
+      /// <returns></returns>
       public async Task<List<BluetoothDeviceInfo>> DiscoverAll()
       {
          DeviceDiscoveryTask = new TaskCompletionSource<bool>();
@@ -54,9 +62,25 @@ namespace BluetoothEx
          DeviceDiscoveryTask.SetResult(true);
       }
 
-      //private void Bc_DiscoverDevicesProgress(object sender, DiscoverDevicesEventArgs e)
-      //{
-      //   Console.WriteLine("Discovering devices");
-      //}
+      /// <summary>
+      /// Pairs a bluetooth device
+      /// </summary>
+      /// <param name="device"></param>
+      /// <returns></returns>
+      public async Task<bool> PairDevice(BluetoothAddress device)
+      {
+         DevicePairingTask = new TaskCompletionSource<bool>();
+
+         var paired = false;
+         await Task.Run(() =>
+         {
+            paired = BluetoothSecurity.PairRequest(device, null);
+         });
+
+         DevicePairingTask.SetResult(true);
+         await DevicePairingTask.Task;
+         return paired;
+      }
+
    }
 }

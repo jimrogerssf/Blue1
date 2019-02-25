@@ -30,6 +30,7 @@
       {
          this.BtnConnect = new System.Windows.Forms.Button();
          this.TBMessages = new System.Windows.Forms.TextBox();
+         this.progressBar1 = new System.Windows.Forms.ProgressBar();
          this.SuspendLayout();
          // 
          // BtnConnect
@@ -47,17 +48,25 @@
          this.TBMessages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
          this.TBMessages.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-         this.TBMessages.Location = new System.Drawing.Point(13, 72);
+         this.TBMessages.Location = new System.Drawing.Point(13, 104);
          this.TBMessages.Multiline = true;
          this.TBMessages.Name = "TBMessages";
-         this.TBMessages.Size = new System.Drawing.Size(375, 366);
+         this.TBMessages.Size = new System.Drawing.Size(375, 334);
          this.TBMessages.TabIndex = 1;
+         // 
+         // progressBar1
+         // 
+         this.progressBar1.Location = new System.Drawing.Point(13, 72);
+         this.progressBar1.Name = "progressBar1";
+         this.progressBar1.Size = new System.Drawing.Size(375, 23);
+         this.progressBar1.TabIndex = 2;
          // 
          // Blue1TestForm
          // 
          this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.ClientSize = new System.Drawing.Size(800, 450);
+         this.Controls.Add(this.progressBar1);
          this.Controls.Add(this.TBMessages);
          this.Controls.Add(this.BtnConnect);
          this.Name = "Blue1TestForm";
@@ -71,6 +80,7 @@
 
       private System.Windows.Forms.Button BtnConnect;
       private System.Windows.Forms.TextBox TBMessages;
+      private System.Windows.Forms.ProgressBar progressBar1;
    }
 }
 
