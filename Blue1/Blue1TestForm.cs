@@ -41,7 +41,6 @@ namespace Blue1
          mm.Add("Mac", mac.ToString());
 
          #region Discovery
-
          // discover devices using non blocking call
          mm.Add("Discovering devices...");
          mm.StartProgress();
@@ -56,11 +55,14 @@ namespace Blue1
 
          #region Pairing
          // attempt pairing with first device in the list
-         if (radios.Count > 0)
+         if (radios.Count == 0)
+         {
+            mm.Add($"Pairing was skipped.");
+         }
+         else
          {
             BluetoothDeviceInfo btInfo = radios[0];
             BluetoothAddress addr = new BluetoothAddress(btInfo.DeviceAddress.ToByteArray());
-
             mm.Add($"Initiating pairing with {btInfo.DeviceName}...");
             mm.StartProgress();
 
@@ -69,18 +71,12 @@ namespace Blue1
             mm.EndProgress();
             var successPrefix = paired ? "" : "un";
             mm.Add($"Pairing was {successPrefix}successful.");
-         }
-         else
-         {
-            mm.Add($"Pairing was skipped.");
+
          }
          #endregion
       }
 
-      /// <summary>
-      /// Simple manager for message logging (display)
-      /// and animation (progress bar)
-      /// </summary>
+
       class MessageManager
       {
          private List<string> Messages { get; set; } = new List<string>();
@@ -111,7 +107,8 @@ namespace Blue1
          }
          internal void Add(List<KeyValuePair<string, string>> values)
          {
-            values.ForEach(kvp => Messages.Add($"{kvp.Key}={kvp.Value}"));
+            values.ForEach(kvp =>
+               Messages.Add($"{kvp.Key}={kvp.Value}"));
             Show();
          }
 
@@ -145,7 +142,6 @@ namespace Blue1
          {
             const int inc = 1;
             int val = Progress.Value + inc;
-
             val = val >= Progress.Maximum ? 0 : val;
             Progress.Value = val;
          }
