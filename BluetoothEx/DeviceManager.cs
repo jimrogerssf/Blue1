@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using InTheHand.Net;
 using InTheHand.Net.Bluetooth;
 using InTheHand.Net.Sockets;
-using InTheHand.Net.Bluetooth.Widcomm;
-using InTheHand.Net.Bluetooth.Factory;
 
 namespace BluetoothEx
 {
